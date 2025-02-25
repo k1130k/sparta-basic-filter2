@@ -62,9 +62,10 @@ public class TodoService {
         );
     }
 
+    @Transactional
     public void deleteById(Long todoId) {
         if (!todoRepository.existsById(todoId)) {
-            throw new IllegalArgumentException("존재하지 않은 Todo 입니다.")
+            throw new IllegalArgumentException("존재하지 않은 Todo 입니다.");
         }
         todoRepository.deleteById(todoId);
     }

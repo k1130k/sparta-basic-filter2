@@ -17,11 +17,6 @@ public class MemberController {
 
     private MemberService memberService;
 
-    @PostMapping("/members")
-    public ResponseEntity<MemberSaveResponseDto> save(@RequestBody MemberSaveRequestDto dto) {
-        return ResponseEntity.ok(memberService.save(dto));
-    }
-
     @GetMapping("/members")
     public List<MemberResponseDto> getAll() {
         return memberService.findAll();
