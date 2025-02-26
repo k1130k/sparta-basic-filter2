@@ -8,6 +8,7 @@ import com.example.demo2.common.consts.Const;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,14 @@ public class AuthController {
         AuthLoginResponseDto result = authService.login(dto);
 
         HttpSession session = request.getSession();
-        session.setAttribute(Const.LOGIN_USER, result.getMemberId());
+        session.setAttribute(Const.LOGIN_MEMBER, result.getMemberId());
+    }
+
+    @PostMapping("/logout")
+    public void logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
     }
 }

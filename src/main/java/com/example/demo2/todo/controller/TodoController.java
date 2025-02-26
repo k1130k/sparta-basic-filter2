@@ -1,5 +1,6 @@
 package com.example.demo2.todo.controller;
 
+import com.example.demo2.common.consts.Const;
 import com.example.demo2.todo.dto.*;
 import com.example.demo2.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,10 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping("/todos")
-    public ResponseEntity<TodoSaveResponseDto> save(@RequestBody TodoSaveRequestDto dto) {
-        return ResponseEntity.ok(todoService.save(dto));
+    public ResponseEntity<TodoSaveResponseDto> save(
+            @SessionAttribute(name = Const.LOGIN_MEMBER) Long memberId,
+            @RequestBody TodoSaveRequestDto dto) {
+        return ResponseEntity.ok(todoService.save(memberId, dto));
     }
 
     @GetMapping("/todos")
@@ -31,12 +34,16 @@ public class TodoController {
     }
 
     @PutMapping("/todos/{todoId}")
-    public ResponseEntity<TodoUpdateResponseDto> update(@RequestBody TodoUpdateRequestDto dto, @PathVariable Long todoId) {
-        return ResponseEntity.ok(todoService.update(dto, todoId));
+    public ResponseEntity<TodoUpdateResponseDto> update(
+            @SessionAttribute(name = Const.LOGIN_MEMBER) Long memberId,
+            @RequestBody TodoUpdateRequestDto dto, @PathVariable Long todoId) {
+        return ResponseEntity.ok(todoService.update(memberId, dto, todoId));
     }
 
     @DeleteMapping("/todos/{todoId}")
-    public void delete(@PathVariable Long todoId) {
-        todoService.deleteById(todoId);
+    public void delete(
+            @SessionAttribute(name = Const.LOGIN_MEMBER) Long memberId,
+            @PathVariable Long todoId) {
+        todoService.deleteById(memberId, todoId);
     }
 }
